@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.sql2o.Sql2o;
 import org.sql2o.Connection;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.*;
 
 public class sql2oUsersTest {
@@ -46,12 +47,30 @@ public class sql2oUsersTest {
     @Test
     public void getAll() throws Exception {
         Users review1 = setNewUser();
-        UsersDao.addUser(review1);
+      UsersDao.addUser(review1);
         Users review2 = setNewUser();
-        UsersDao.addUser(review2);
-
+      UsersDao.addUser(review2);
         assertEquals(2, UsersDao.getAll().size());
     }
+
+
+    //instances
+    @Test
+    public void UserInstances() {
+
+        Users users=setNewUser();
+        Users otherUser= new Users("dennis","hr","recruiting");
+        UsersDao.addUser(users);
+        UsersDao.addUser(otherUser);
+        assertEquals(users.getName(),UsersDao.getAll().get(0).getName());
+        assertEquals(otherUser.getName(),UsersDao.getAll().get(1).getName());
+    }
+
+
+
+
+
+
 
 
 
