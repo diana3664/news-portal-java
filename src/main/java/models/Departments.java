@@ -33,7 +33,11 @@ public class Departments {
         return size;
     }
 
-//    overide
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    //    overide
 
     @Override
     public boolean equals(Object o) {

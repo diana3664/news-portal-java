@@ -3,11 +3,13 @@ import dao.sql2oUsers;
 import models.Departments;
 import models.Users;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.*;
 
 public class sql2oDepartmentsTest {
@@ -37,4 +39,40 @@ public class sql2oDepartmentsTest {
     }
 
 
+//    @Test
+//    public void AddedDepartment() {
+//        Departments department = setDepartment();
+//        DepartmentsDao.addDept(department);
+//        int originalId=department.getId();
+//
+//        assertNotEquals(originalId,department.getId());
+//    }
+
+    @Test
+    public void getAllDept() {
+        Departments department=setDepartment();
+
+        Departments otherDepartment=new Departments("hr","recruiting");
+        DepartmentsDao.addDept(department);
+        DepartmentsDao.addDept(otherDepartment);
+        Assert.assertEquals(department,DepartmentsDao.getAllDept().get(0));
+        Assert.assertEquals(otherDepartment,DepartmentsDao.getAllDept().get(1));
+    }
+
+
+    @Test
+    public void DepartmentFindById() {
+        Departments department=setDepartment();
+        Departments otherDepartment=new Departments("hr","recruiting");
+        DepartmentsDao.addDept(department);
+        DepartmentsDao.addDept(otherDepartment);
+        Assert.assertEquals(department,DepartmentsDao.findById(department.getId()));
+        Assert.assertEquals(otherDepartment,DepartmentsDao.findById(otherDepartment.getId()));
+
+    }
+
+    //helpers
+    private Departments setDepartment() {
+        return new Departments("hr", "recruiting");
+    }
 }
