@@ -1,5 +1,6 @@
 import dao.sql2oDepartments;
 import dao.sql2oUsers;
+import models.Departments;
 import models.Users;
 import org.junit.After;
 import org.junit.Before;
@@ -31,7 +32,9 @@ public class sql2oDepartmentsTest {
 
     @Test
     public void Departments_instantiatesCorrectly() {
-        Users user = new Users("John", "Clerk", "Sending and recieving messages");
-        assertTrue(user instanceof Users);
+        Departments department = new Departments("hr", "recruiting");
+        assertTrue(department instanceof Departments);
     }
+
+
 }

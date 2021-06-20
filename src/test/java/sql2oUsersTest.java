@@ -1,6 +1,7 @@
 import dao.sql2oUsers;
 import models.Users;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Sql2o;
@@ -67,7 +68,13 @@ public class sql2oUsersTest {
     }
 
 
-
+    @Test
+    public void findByIdReturnsCorrectUser() throws Exception {
+        Users testUser = setNewUser();
+        UsersDao.addUser(testUser);
+        Users otherUser = setNewUser();
+        Assert.assertEquals(testUser, UsersDao.findById(testUser.getId()));
+    }
 
 
 

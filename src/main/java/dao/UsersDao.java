@@ -15,7 +15,7 @@ public interface UsersDao {
     //update
    List<Users> getAll();
     // List<Departments> getAllUserDepartments(int user_id);
-    //   Users findById(int id);
+      Users findById(int id);
 
     //delete
     //   void clearAllUsers();

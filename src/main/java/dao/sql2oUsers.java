@@ -38,4 +38,14 @@ public class sql2oUsers implements UsersDao {
         }
     }
 
+    @Override
+    public Users findById(int id) {
+        try (Connection con=sql2o.open()){
+            String sql=("SELECT * FROM staff WHERE id=:id");
+            return con.createQuery(sql)
+                    .addParameter("id",id)
+                    .executeAndFetchFirst(Users.class);
+        }
+    }
+
 }
