@@ -48,4 +48,15 @@ public class sql2oUsers implements UsersDao {
         }
     }
 
+    @Override
+    public void clearAllUsers() {
+        String sql = "DELETE from staff";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql).executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+
+
 }

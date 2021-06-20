@@ -18,5 +18,5 @@ public interface UsersDao {
       Users findById(int id);
 
     //delete
-    //   void clearAllUsers();
+      void clearAllUsers();
 }

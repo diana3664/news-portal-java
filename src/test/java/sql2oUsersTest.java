@@ -1,3 +1,4 @@
+import dao.UsersDao;
 import dao.sql2oUsers;
 import models.Users;
 import org.junit.After;
@@ -67,6 +68,7 @@ public class sql2oUsersTest {
         assertEquals(otherUser.getName(),UsersDao.getAll().get(1).getName());
     }
 
+    //find by id
 
     @Test
     public void findByIdReturnsCorrectUser() throws Exception {
@@ -76,7 +78,15 @@ public class sql2oUsersTest {
         Assert.assertEquals(testUser, UsersDao.findById(testUser.getId()));
     }
 
-
+    @Test
+    public void clearAll() throws Exception {
+        Users review1 = setNewUser();
+        UsersDao.addUser(review1);
+        Users review2 = setNewUser();
+        UsersDao.addUser(review2);
+        UsersDao.clearAllUsers();
+        Assert.assertEquals(0, UsersDao.getAll().size());
+    }
 
 
 
