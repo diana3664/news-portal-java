@@ -39,14 +39,6 @@ public class sql2oDepartmentsTest {
     }
 
 
-//    @Test
-//    public void AddedDepartment() {
-//        Departments department = setDepartment();
-//        DepartmentsDao.addDept(department);
-//        int originalId=department.getId();
-//
-//        assertNotEquals(originalId,department.getId());
-//    }
 
     @Test
     public void getAllDept() {
