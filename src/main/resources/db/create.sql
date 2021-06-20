@@ -17,3 +17,11 @@ description VARCHAR,
 size int
 );
 
+CREATE TABLE IF NOT EXISTS news (
+id SERIAL PRIMARY KEY,
+news_type VARCHAR,
+title VARCHAR,
+description VARCHAR,
+
+);
+
