@@ -17,7 +17,7 @@ public interface DepartmentsDao {
     List<Departments> getAllDept();
     Departments findById(int id);
     List<Users> getAllUsersInDepartment(int department_id);
-    List<News> getDepartmentNews(int id);
+//    List<News> getDepartmentNews(int id);
 
 
     //update

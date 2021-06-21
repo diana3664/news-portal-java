@@ -1,7 +1,7 @@
-import dao.UsersDao;
-import dao.sql2oDepartments;
-import dao.sql2oUsers;
+import dao.*;
+import models.Department_news;
 import models.Departments;
+import models.News;
 import models.Users;
 import org.junit.After;
 import org.junit.Assert;
@@ -20,6 +20,7 @@ public class sql2oDepartmentsTest {
     private Connection conn;
     private sql2oUsers UsersDao;
     private sql2oDepartments DepartmentsDao;
+    private sql2oNews NewsDao;
 
 
     @Before
@@ -28,6 +29,8 @@ public class sql2oDepartmentsTest {
         Sql2o sql2o = new Sql2o(connectionString, "moringa", "123");
         DepartmentsDao = new sql2oDepartments(sql2o);
         UsersDao =new sql2oUsers(sql2o);
+        NewsDao =new sql2oNews(sql2o);
+
         conn = sql2o.open();
     }
 
@@ -88,6 +91,19 @@ public class sql2oDepartmentsTest {
         assertEquals(Arrays.asList(userstype), DepartmentsDao.getAllUsersInDepartment(departmentTest.getId()));
     }
 
+//    @Test
+//    public void getDepartmentNews() {
+//        Users user=new Users("dennis","hr","recruiting");
+//        UsersDao.addUser(user);
+//        Departments departments=setDepartment();
+//        DepartmentsDao.addDept(departments);
+//        Department_news department_news =new Department_news("hr","recruiting",departments.getId(),user.getId());
+//        NewsDao.addDepartmentNews(department_news);
+//        News news=new News("sales","Marketing",user.getId());
+//        NewsDao.addNews(news);
+//
+//        assertEquals(department_news.getTitle(),sql2oDepartments.getDepartmentNews(department_news.getId()).get(0).getTitle());
+//    }
 
     //helpers
     private Departments setDepartment() {
