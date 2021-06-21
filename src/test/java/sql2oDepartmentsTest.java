@@ -3,10 +3,7 @@ import models.Department_news;
 import models.Departments;
 import models.News;
 import models.Users;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -17,26 +14,38 @@ import static org.junit.Assert.*;
 
 public class sql2oDepartmentsTest {
 
-    private Connection conn;
-    private sql2oUsers UsersDao;
-    private sql2oDepartments DepartmentsDao;
-    private sql2oNews NewsDao;
+    private static Connection conn;
+    private static sql2oUsers UsersDao;
+    private static sql2oDepartments DepartmentsDao;
+    private static sql2oNews NewsDao;
 
 
-    @Before
-    public void setUp() throws Exception {
-        String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
+    @BeforeClass
+    public static void setUp() throws Exception {
+        String connectionString = "jdbc:postgresql://localhost:5432/newsportal_test"; //connect to postgres test database
         Sql2o sql2o = new Sql2o(connectionString, "moringa", "123");
+
         DepartmentsDao = new sql2oDepartments(sql2o);
         UsersDao =new sql2oUsers(sql2o);
         NewsDao =new sql2oNews(sql2o);
+        System.out.println("connected to database");
 
         conn = sql2o.open();
     }
 
     @After
     public void tearDown() throws Exception {
+        DepartmentsDao.clearAllDept();
+        UsersDao.clearAllUsers();
+        NewsDao.clearAllNews();
+        System.out.println("clearing database");
+    }
+
+
+    @AfterClass
+    public static void shutDown() {
         conn.close();
+        System.out.println("connection closed");
     }
 
 

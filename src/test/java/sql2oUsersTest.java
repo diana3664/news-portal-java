@@ -1,32 +1,29 @@
-import dao.DepartmentsDao;
-import dao.UsersDao;
-import dao.sql2oDepartments;
-import dao.sql2oUsers;
+import dao.*;
 import models.Departments;
 import models.Users;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.sql2o.Sql2o;
 import org.sql2o.Connection;
 
 import java.util.Arrays;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotSame;
 import static org.junit.Assert.*;
 
 public class sql2oUsersTest {
 
-    private Connection conn;
-    private sql2oUsers UsersDao;
-    private sql2oDepartments DepartmentsDao;
+    private static Connection conn;
+    private static sql2oUsers UsersDao;
+    private static sql2oDepartments DepartmentsDao;
 
 
-    @Before
-    public void setUp() throws Exception {
-        String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
+    @BeforeClass
+    public static void setUp() throws Exception {
+        String connectionString = "jdbc:postgresql://localhost:5432/newsportal_test"; //connect to postgres test database
         Sql2o sql2o = new Sql2o(connectionString, "moringa", "123");
+
+
         UsersDao = new sql2oUsers(sql2o);
         DepartmentsDao = new sql2oDepartments(sql2o);
 
@@ -35,7 +32,15 @@ public class sql2oUsersTest {
 
     @After
     public void tearDown() throws Exception {
+        DepartmentsDao.clearAllDept();
+        UsersDao.clearAllUsers();
+        System.out.println("clearing database");
+    }
+
+    @AfterClass
+    public static void shutDown() {
         conn.close();
+        System.out.println("connection closed");
     }
 
     @Test
@@ -49,7 +54,7 @@ public class sql2oUsersTest {
     public void addingUsersSetsId() throws Exception {
         Users testUser = setNewUser();
         UsersDao.addUser(testUser);
-        assertEquals(1, testUser.getId());
+        assertNotSame(1, testUser.getId());
 
     }
 

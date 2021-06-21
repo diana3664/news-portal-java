@@ -2,26 +2,24 @@ import dao.*;
 import models.Departments;
 import models.News;
 import models.Users;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.util.Arrays;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotSame;
 
 public class sql2oNewsTest {
-    private Connection conn;
-    private sql2oNews NewsDao;
-    private sql2oDepartments DepartmentsDao;
-    private sql2oUsers UsersDao;
+    private static Connection conn;
+    private static sql2oNews NewsDao;
+    private static sql2oDepartments DepartmentsDao;
+    private static sql2oUsers UsersDao;
 
-    @Before
-    public void setUp() throws Exception {
-        String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
+    @BeforeClass
+    public static void setUp() throws Exception {
+        String connectionString = "jdbc:postgresql://localhost:5432/newsportal_test"; //connect to postgres test database
         Sql2o sql2o = new Sql2o(connectionString, "moringa", "123");
         NewsDao = new sql2oNews(sql2o);
         DepartmentsDao = new sql2oDepartments(sql2o);
@@ -31,7 +29,16 @@ public class sql2oNewsTest {
 
     @After
     public void tearDown() throws Exception {
+        DepartmentsDao.clearAllDept();
+        UsersDao.clearAllUsers();
+        NewsDao.clearAllNews();
+        System.out.println("clearing database");
+    }
+
+    @AfterClass
+    public static void shutDown() {
         conn.close();
+        System.out.println("connection closed");
     }
 
 
@@ -43,7 +50,7 @@ public class sql2oNewsTest {
         DepartmentsDao.addDept(departments);
         News news=new News("payments","paying salary",departments.getId(),users.getId());
         NewsDao.addNews(news);
-        assertEquals(1, news.getId());
+        assertNotSame(4, news.getId());
     }
 
     @Test
