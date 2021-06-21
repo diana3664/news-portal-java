@@ -63,9 +63,25 @@ public class App {
                 return "{\"message\":\"departments Not currently listed in the database.\"}";
             }
         });
+
+
+        post("/news/new/general","application/json",(request, response) -> {
+
+            News news =gson.fromJson(request.body(),News.class);
+            NewsDao.addNews(news);
+            response.status(201);
+            return gson.toJson(news);
+        });
+
+
+        get("/news/general","application/json",(request, response) -> {
+            if(NewsDao.getAll().size()>0){
+                return gson.toJson(NewsDao.getAll());
+            }
+            else {
+                return "{\"message\":\"No news available.\"}";
+            }
+        });
     }
-
-
-
 
 }
