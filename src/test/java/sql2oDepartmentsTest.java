@@ -27,6 +27,7 @@ public class sql2oDepartmentsTest {
         String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "moringa", "123");
         DepartmentsDao = new sql2oDepartments(sql2o);
+        UsersDao =new sql2oUsers(sql2o);
         conn = sql2o.open();
     }
 
@@ -67,20 +68,25 @@ public class sql2oDepartmentsTest {
 
     }
 
-    @Test
-    public void addUserIntoDept() {
-        Departments department=setDepartment();
-        DepartmentsDao.addDept(department);
-        Users user=new Users("dennis","hr","recruiting");
-        Users otherUser= new Users("dennis","developer","Coding");
-        UsersDao.addUser(user);
-        UsersDao.addUser(otherUser);
-        DepartmentsDao.addUserIntoDept(user,department);
-        DepartmentsDao.addUserIntoDept(otherUser,department);
-        //assertEquals(2,sql2oDepartments.getAllUsersInDepartment(department.getId()).size());
-        Assert.assertEquals(2,DepartmentsDao.findById(department.getId()).getSize());
-    }
+//many to many relationship
 
+    @Test
+    public void DepertmenReturnsUserstypesCorrectly() throws Exception {
+        Users user=new Users("dennis","hr","recruiting");
+        UsersDao.addUser(user);
+
+        Users otherUser= new Users("dennis","developer","Coding");
+        UsersDao.addUser(otherUser);
+
+        Departments departmentTest=setDepartment();
+        DepartmentsDao.addDept(departmentTest);
+        DepartmentsDao.addUserIntoDept(user,departmentTest);
+        DepartmentsDao.addUserIntoDept(otherUser,departmentTest);
+
+        Users[] userstype = {user, otherUser}; //oh hi what is this? Observe how we use its assertion below.
+
+        assertEquals(Arrays.asList(userstype), DepartmentsDao.getAllUsersInDepartment(departmentTest.getId()));
+    }
 
 
     //helpers

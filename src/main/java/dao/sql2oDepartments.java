@@ -77,20 +77,35 @@ public class sql2oDepartments implements DepartmentsDao {
                     .addParameter("user_id",user.getId())
                     .addParameter("department_id",department.getId())
                     .executeUpdate();
-            String sizeQuery="SELECT user_id FROM users_departments";
-            List<Integer> size=con.createQuery(sizeQuery)
-                    .executeAndFetch(Integer.class);
-            String updateDepartmentSize="UPDATE departments SET size=:size WHERE id=:id";
-            con.createQuery(updateDepartmentSize).addParameter("id",department.getId())
-                    .addParameter("size",size.size())
-                    .executeUpdate();
-
         }catch (Sql2oException e){
             System.out.println(e);
         }
 
     }
 
+
+    @Override
+    public List<Users> getAllUsersInDepartment(int department_id) {
+
+        List<Users> users=new ArrayList<>();
+        try (Connection con=sql2o.open()){
+            String sql= "SELECT user_id FROM users_departments WHERE department_id=:department_id";
+            List<Integer> userIds=con.createQuery(sql)
+                    .addParameter("department_id",department_id)
+                    .executeAndFetch(Integer.class);
+
+            for(Integer id : userIds){
+                String userResults="SELECT * FROM staff WHERE id=:id";
+                users.add(con.createQuery(userResults)
+                        .addParameter("id",id)
+                        .executeAndFetchFirst(Users.class));
+
+            }
+
+            return users;
+        }
+
+    }
 
 
 

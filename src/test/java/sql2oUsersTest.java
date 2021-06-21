@@ -11,6 +11,8 @@ import org.junit.Test;
 import org.sql2o.Sql2o;
 import org.sql2o.Connection;
 
+import java.util.Arrays;
+
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.*;
 
@@ -26,6 +28,8 @@ public class sql2oUsersTest {
         String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "moringa", "123");
         UsersDao = new sql2oUsers(sql2o);
+        DepartmentsDao = new sql2oDepartments(sql2o);
+
         conn = sql2o.open();
     }
 
@@ -92,6 +96,29 @@ public class sql2oUsersTest {
         Assert.assertEquals(0, UsersDao.getAll().size());
     }
 
+    @Test
+    public void addDeptToUserAddsTypeCorretly() throws Exception {
+
+        Departments testdepartment=setDepartment();
+
+        DepartmentsDao.addDept(testdepartment);
+
+        Users user=new Users("dennis","hr","recruiting");
+
+        UsersDao.addUser(user);
+
+        UsersDao.addDeptToUser(user,testdepartment);
+
+        assertEquals(1, UsersDao.getAllDepartmentsUsers(user.getId()).size());
+
+    }
+
+
+
+
+    private Departments setDepartment() {
+        return new Departments("hr", "recruiting");
+    }
 
 
     //helpers

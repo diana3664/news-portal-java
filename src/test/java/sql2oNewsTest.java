@@ -1,7 +1,4 @@
-import dao.UsersDao;
-import dao.sql2oDepartments;
-import dao.sql2oNews;
-import dao.sql2oUsers;
+import dao.*;
 import models.Departments;
 import models.News;
 import models.Users;
@@ -11,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+
+import java.util.Arrays;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -57,10 +56,6 @@ public class sql2oNewsTest {
         NewsDao.addNews(news);
         Assert.assertEquals(news, NewsDao.findById(news.getId()));
     }
-
-
-
-
 
 
 
