@@ -72,4 +72,4 @@ A Java/Spark application with a rest REST API for querying and retrieving scoped
 1. Bootstrap
 2. Material Design Bootstrap.
 
-### LICENSE: [MIT LICENSE](https://raw.githubusercontent.com/deepeters/news-portal/master/LICENSE)
+### LICENSE: [MIT LICENSE](https://raw.githubusercontent.com/diana3664/news-portal/master/LICENSE)
