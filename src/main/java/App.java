@@ -46,5 +46,26 @@ public class App {
                 return "{\"message\":\"User not registered.\"}";
             }
         });
+
+        post("/departments/new","application/json",(request, response) -> {
+            Departments departments =gson.fromJson(request.body(),Departments.class);
+            DepartmentsDao.addDept(departments);
+            response.status(201);
+            return gson.toJson(departments);
+        });
+
+
+        get("/departments","application/json",(request, response) -> {
+            if(DepartmentsDao.getAllDept().size()>0){
+                return gson.toJson(DepartmentsDao.getAllDept());
+            }
+            else {
+                return "{\"message\":\"departments Not currently listed in the database.\"}";
+            }
+        });
     }
+
+
+
+
 }
