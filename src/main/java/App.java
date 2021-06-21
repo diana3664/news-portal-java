@@ -13,6 +13,7 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class App {
@@ -114,7 +115,37 @@ public class App {
             return gson.toJson(news);
         });
 
+        get("/user/:id/departments","application/json",(request, response) -> {
+            int id=Integer.parseInt(request.params("id"));
+            if(UsersDao.getAllDepartmentsUsers(id).size()>0){
+                return gson.toJson(UsersDao.getAllDepartmentsUsers(id));
+            }
+            else {
+                return "{\"message\":\"but user Not in the departments.\"}";
+            }
+        });
 
+        post("/add/user/:user_id/department/:department_id","application/json",(request, response) -> {
+
+            int user_id=Integer.parseInt(request.params("user_id"));
+            int department_id=Integer.parseInt(request.params("department_id"));
+            Departments departments=DepartmentsDao.findById(department_id);
+            Users users=UsersDao.findById(user_id);
+            if(departments==null){
+                throw new ApiExceptions(404, String.format("No department with the id: \"%s\" exists",
+                        request.params("department_id")));
+            }
+            if(users==null){
+                throw new ApiExceptions(404, String.format("No user with the id: \"%s\" exists",
+                        request.params("user_id")));
+            }
+            DepartmentsDao.addUserIntoDept(users,departments);
+
+            List<Users> departmentUsers=DepartmentsDao.getAllUsersInDepartment(departments.getId());
+
+            response.status(201);
+            return gson.toJson(departmentUsers);
+        });
 
         //FILTERS
         exception(ApiExceptions.class, (exception, request, response) -> {
