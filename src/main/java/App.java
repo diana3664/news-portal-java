@@ -11,6 +11,8 @@ import models.Users;
 import static spark.Spark.*;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+import spark.ModelAndView;
+import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +35,13 @@ public class App {
         NewsDao =new sql2oNews(sql2o);
 
         conn = sql2o.open();
+
+
+        // creating the landing page
+        get("/",(request, response) ->{
+            Map<String,Object> model = new HashMap<>();
+            return new ModelAndView(model,"index.hbs");
+        },new HandlebarsTemplateEngine());
 
 
         post("/users/new","application/json",(request, response) -> {
