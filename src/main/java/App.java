@@ -125,6 +125,16 @@ public class App {
             }
         });
 
+        get("/department/:id/users","application/json",(request, response) -> {
+            int id=Integer.parseInt(request.params("id"));
+            if(DepartmentsDao.getAllUsersInDepartment(id).size()>0){
+                return gson.toJson(DepartmentsDao.getAllUsersInDepartment(id));
+            }
+            else {
+                return "{\"message\":\"Department not available:\"}";
+            }
+        });
+
         post("/add/user/:user_id/department/:department_id","application/json",(request, response) -> {
 
             int user_id=Integer.parseInt(request.params("user_id"));
@@ -145,6 +155,42 @@ public class App {
 
             response.status(201);
             return gson.toJson(departmentUsers);
+        });
+
+        get("/department/:id","application/json",(request, response) -> {
+            int id=Integer.parseInt(request.params("id"));
+            if(DepartmentsDao.findById(id)==null){
+                throw new ApiExceptions(404, String.format("No department with the id: \"%s\" exists",
+                        request.params("id")));
+            }
+            else {
+                return gson.toJson(DepartmentsDao.findById(id));
+            }
+        });
+
+        post("/department/:id","application/json",(request, response) -> {
+            Departments departments =gson.fromJson(request.body(),Departments.class);
+            DepartmentsDao.addDept(departments);
+            response.status(201);
+            return gson.toJson(departments);
+        });
+
+        get("/users/:id", "application/json", (request, response) -> {
+            int id=Integer.parseInt(request.params("id"));
+            if(UsersDao.findById(id)==null){
+                throw new ApiExceptions(404, String.format("User not available: \"%s\" exists",
+                        request.params("id")));
+            }
+            else {
+                return gson.toJson(UsersDao.findById(id));
+            }
+        });
+
+        post("/users/:id","application/json",(request, response) -> {
+            Users user=gson.fromJson(request.body(),Users.class);
+            UsersDao.addUser(user);
+            response.status(201);
+            return gson.toJson(user);
         });
 
         //FILTERS
