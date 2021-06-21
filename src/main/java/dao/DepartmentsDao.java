@@ -8,7 +8,7 @@ public interface DepartmentsDao {
 
     //create
     void addDept(Departments department);
-
+    void addUserIntoDept(Users user, Departments department);
     //read
 
     List<Departments> getAllDept();
@@ -17,4 +17,6 @@ public interface DepartmentsDao {
     //delete
     void clearAllDept();
 
+    //one to many relationship user and department
+   //List<Users> getUsers(int department_id);
 }

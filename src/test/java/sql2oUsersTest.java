@@ -1,5 +1,8 @@
+import dao.DepartmentsDao;
 import dao.UsersDao;
+import dao.sql2oDepartments;
 import dao.sql2oUsers;
+import models.Departments;
 import models.Users;
 import org.junit.After;
 import org.junit.Assert;
@@ -15,6 +18,7 @@ public class sql2oUsersTest {
 
     private Connection conn;
     private sql2oUsers UsersDao;
+    private sql2oDepartments DepartmentsDao;
 
 
     @Before
@@ -87,9 +91,6 @@ public class sql2oUsersTest {
         UsersDao.clearAllUsers();
         Assert.assertEquals(0, UsersDao.getAll().size());
     }
-
-
-
 
 
 

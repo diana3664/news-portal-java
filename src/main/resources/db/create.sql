@@ -25,3 +25,9 @@ description VARCHAR,
 
 );
 
+CREATE TABLE IF NOT EXISTS  users_departments (
+id SERIAL PRIMARY KEY,
+user_id INT,
+department_id INT
+);
+
