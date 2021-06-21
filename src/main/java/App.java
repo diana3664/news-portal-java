@@ -1,3 +1,4 @@
+import Exceptions.ApiExceptions;
 import com.google.gson.Gson;
 import dao.*;
 import dao.sql2oNews;
@@ -10,6 +11,9 @@ import models.Users;
 import static spark.Spark.*;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class App {
     public static void main(String[] args) {
@@ -81,6 +85,46 @@ public class App {
             else {
                 return "{\"message\":\"No news available.\"}";
             }
+        });
+
+
+        post("/news/new/department","application/json",(request, response) -> {
+            News department_news =gson.fromJson(request.body(),News.class);
+            Departments departments=DepartmentsDao.findById(department_news.getDeptid());
+            Users users=UsersDao.findById(department_news.getUid());
+            if(departments==null){
+                throw new ApiExceptions(404, String.format("No department with the id: \"%s\" exists",
+                        request.params("id")));
+            }
+            if(users==null){
+                throw new ApiExceptions(404, String.format("No user with the id: \"%s\" exists",
+                        request.params("id")));
+            }
+            NewsDao.addNews(department_news);
+            response.status(201);
+            return gson.toJson(department_news);
+        });
+
+
+        post("/news/new/general","application/json",(request, response) -> {
+
+            News news =gson.fromJson(request.body(),News.class);
+            NewsDao.addNews(news);
+            response.status(201);
+            return gson.toJson(news);
+        });
+
+
+
+        //FILTERS
+        exception(ApiExceptions.class, (exception, request, response) -> {
+            ApiExceptions err = exception;
+            Map<String, Object> jsonMap = new HashMap<>();
+            jsonMap.put("status", err.getStatusCode());
+            jsonMap.put("errorMessage", err.getMessage());
+            response.type("application/json");
+            response.status(err.getStatusCode());
+            response.body(gson.toJson(jsonMap));
         });
     }
 
