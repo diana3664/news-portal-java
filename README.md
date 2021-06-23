@@ -6,18 +6,13 @@ A Java/Spark application with a rest REST API for querying and retrieving scoped
 
 
 
-### Setup Instructions
+## Setup Instructions
 
-* To run the application, first install the java development kit from `https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html`
 * Install gradle.
-* Next clone the project using `$ git clone https://github.com/deepeters/douglas-fir` to your preferred folder.
 * In the command prompt, navigate to cloned folder and use the following command to run the app `$ gradle run`
 * Open the browser and enter the address `localhost:4567`
 
-* * Install PostgreSQL. for help installing ==> https://www.youtube.com/watch?v=-LwI4HMR_Eg
-  * Open up your terminal and type the following commands(only works if postgreSQL is installed)
-  
- ## DATABASE NAME 
+ ### DATABASE NAME 
  `\c newsportal;`
  `\c newspotal_test;`
 
