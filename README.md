@@ -17,8 +17,9 @@ A Java/Spark application with a rest REST API for querying and retrieving scoped
 * * Install PostgreSQL. for help installing ==> https://www.youtube.com/watch?v=-LwI4HMR_Eg
   * Open up your terminal and type the following commands(only works if postgreSQL is installed)
   
- ##CREATE BASE
- `Navigate to src/resources/db and run psql < create.sql to create batase and psql < drop.sql to drop database`
+ ## DATABASE NAME 
+ `\c newsportal;`
+ `\c newspotal_test;`
 
 
 ## End points
