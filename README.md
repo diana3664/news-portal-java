@@ -15,6 +15,13 @@ A Java/Spark application with a rest REST API for querying and retrieving scoped
  ### DATABASE NAME 
  `\c newsportal;`
  `\c newspotal_test;`
+ ### CREATE  TABLES
+ * `nativage to main/resources/db  `
+ * `run  psql < create.sql`
+
+ ### DROP  TABLES
+ * `nativage to main/resources/db  `
+ * `run  psql < drop.sql`
 
 
 ## End points
@@ -43,6 +50,8 @@ A Java/Spark application with a rest REST API for querying and retrieving scoped
 1. Java
 2. HTML
 3. CSS
+
+
 
 ### Frameworks Used
 1. Gradle
